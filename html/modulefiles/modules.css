@@ -1,0 +1,56 @@
+.footer-bg{
+    background-color: rgba(247, 195, 95, 1);
+    
+}
+.nav-bg{
+    background-color: rgba(247, 195, 95, 1);
+}
+
+.teenanimlogo{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-left: 10px ;
+}
+
+.blurred{
+    background-color: rgba(255, 255, 255,0.5);
+    backdrop-filter: blur(10px);
+    width: auto;
+    height: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+}
+
+
+.module-image{
+    height: 250px;
+    width: 250px;
+}
+body {
+    background-image: url("farming.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+h2 {
+    font-size: 24px;
+    color: black;
+}
+h3 {
+    font-size: 20px;
+    color: black;
+}
+p {
+    font-size: 16px;
+    color: black;
+}
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    color:black;
+}

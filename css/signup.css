@@ -1,0 +1,38 @@
+body{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url("../images/HeroPage.png");
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Irish Grover', 'Poppins', sans-serif;
+}
+.font-style{
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Irish Grover';
+}
+.nav-background{
+    background-color: rgba(40, 167, 69, .9);
+}
+.white
+{
+    background-color: white;
+}
+.blurred{
+    background-color: rgba(255, 255, 255,0.5);
+    border-radius: 20px;
+    border:1px solid black;
+backdrop-filter: blur(10px);
+}
+.button{
+    background-color: #213A58;
+    
+}
+.teenanimlogo{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-left: 10px ;
+}
+.footer-bg{
+    background-color: rgba(40, 167, 69, .9);
+}

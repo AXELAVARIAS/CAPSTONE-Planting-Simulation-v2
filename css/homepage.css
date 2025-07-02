@@ -1,0 +1,368 @@
+body, .container-fluid{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .brand, .navbar-brand {
+    font-family: 'Irish Grover', cursive;
+}
+
+.nav-bg{
+    background-color: rgba(40, 167, 69, 1);
+}
+
+.hero-page{
+    background-image: url("../images/HeroPage.png");
+    background-size: cover;
+    background-position: center;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+h1{
+    color: #F7C35F;
+}
+
+.grey-background{
+    background-color: rgba(245, 245, 245, 1);
+}
+
+.footer-bg{
+    background-color: rgba(40, 167, 69, .9);
+}
+
+.contact-bg{
+    background-color: rgba(40, 167, 69, .9);
+}
+.teenanimlogo{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-left: 10px ;
+    margin-bottom: 0px;
+}
+
+.ml-5 {
+    margin-left: 250px;
+  }
+.buttonformat{
+    color: #F7C35F;
+    background-color: #2D5F4D;
+}
+.buttonformat:hover{
+    color: #F7C35F;
+    background-color: #239b56;
+}
+
+.navbar-brand {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: bold !important;
+    font-size: 1.5rem !important;
+    color: #388e3c !important;
+    letter-spacing: 1px !important;
+    display: flex;
+    align-items: center;
+}
+
+.reply-card-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.reply-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fcfff5;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(60, 120, 60, 0.07);
+  padding: 18px 24px;
+  max-width: 600px;
+  width: 100%;
+  gap: 18px;
+}
+
+.reply-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e0f5d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #4caf50;
+  flex-shrink: 0;
+}
+
+.reply-content {
+  flex: 1;
+}
+
+.reply-meta {
+  font-size: 0.95rem;
+  color: #7a8a7a;
+  margin-bottom: 4px;
+}
+
+.reply-text {
+  font-size: 1.08rem;
+  color: #2d3a2d;
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .reply-card {
+    flex-direction: column;
+    padding: 12px 8px;
+    gap: 8px;
+    max-width: 98vw;
+  }
+  .reply-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+  .reply-content {
+    padding: 0;
+  }
+}
+
+/* Agriculturist Page Redesign */
+.agri-sidebar {
+  background: linear-gradient(135deg, #43a047 80%, #f7c35f 100%);
+  box-shadow: 2px 0 12px rgba(67,160,71,0.08);
+  min-height: 100vh;
+  width: 240px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 90px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.agri-sidebar .avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(67,160,71,0.10);
+}
+.agri-sidebar .welcome {
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.agri-sidebar .nav {
+  width: 100%;
+}
+.agri-sidebar .nav-link {
+  color: #fff;
+  font-size: 1.08rem;
+  padding: 12px 24px;
+  border-radius: 2rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+.agri-sidebar .nav-link.active {
+  background: #fff;
+  color: #388e3c !important;
+  box-shadow: 0 2px 8px rgba(67,160,71,0.10);
+}
+.agri-sidebar .nav-link:not(.active):hover,
+.agri-sidebar .nav-link:not(.active):focus {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+.agri-sidebar .nav-link i {
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+}
+.agri-main-content {
+  margin-left: 260px;
+  padding: 36px 18px 18px 18px;
+  min-height: 100vh;
+  background: #f8fcf7;
+  transition: margin 0.2s;
+}
+@media (max-width: 900px) {
+  .agri-sidebar {
+    position: static;
+    width: 100vw;
+    min-height: unset;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding: 8px 0 8px 0;
+    padding-top: 16px;
+  }
+  .agri-main-content {
+    margin-left: 0;
+    padding: 16px 4px;
+  }
+}
+@media (max-width: 600px) {
+  .agri-sidebar {
+    flex-direction: column;
+    width: 100vw;
+    padding-top: 8px;
+    align-items: center;
+  }
+  .agri-main-content {
+    padding: 8px 2px;
+  }
+}
+.agri-card {
+  border-radius: 1.1rem;
+  box-shadow: 0 4px 24px rgba(76,175,80,0.10);
+  background: #fff;
+  margin-bottom: 2rem;
+  padding: 2rem 2.2rem 1.5rem 2.2rem;
+  transition: box-shadow 0.18s;
+}
+.agri-card-header {
+  background: #188a4b;
+  color: #fff;
+  border-radius: 1.1rem 1.1rem 0 0;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: -2rem -2.2rem 1.2rem -2.2rem;
+}
+.agri-reply-card {
+  background: #f9fbe7;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(67,160,71,0.07);
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  text-align: left;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.agri-reply-card:hover {
+  background: #e8f5e9;
+  box-shadow: 0 4px 16px rgba(67,160,71,0.13);
+}
+.agri-reply-title {
+  font-weight: 600;
+  color: #388e3c;
+  font-size: 1.08rem;
+  margin-bottom: 4px;
+}
+.agri-reply-body {
+  color: #2d3a2d;
+  margin-bottom: 4px;
+}
+.agri-reply-date {
+  font-size: 0.95rem;
+  color: #7a8a7a;
+}
+/* Settings Tabs */
+.agri-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.agri-tab-btn {
+  background: #f7c35f;
+  color: #388e3c;
+  border: none;
+  border-radius: 2rem 2rem 0 0;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.agri-tab-btn.active, .agri-tab-btn:hover {
+  background: #43a047;
+  color: #fff;
+}
+/* Add Plant Form */
+.agri-add-plant-form {
+  background: #43a047;
+  color: #fff;
+  border-radius: 18px;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 4px 24px rgba(67,160,71,0.10);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+.agri-add-plant-form label {
+  color: #fff;
+  font-weight: 600;
+}
+.agri-add-plant-form input, .agri-add-plant-form textarea {
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.agri-add-plant-form .form-control:focus {
+  border-color: #f7c35f;
+  box-shadow: 0 0 0 2px #f7c35f33;
+}
+.agri-image-preview {
+  display: block;
+  margin: 0 auto 16px auto;
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(67,160,71,0.10);
+}
+/* Floating label effect */
+.agri-add-plant-form .form-label {
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: all 0.2s;
+  pointer-events: none;
+}
+.agri-add-plant-form .form-control:focus + .form-label,
+.agri-add-plant-form .form-control:not(:placeholder-shown) + .form-label {
+  top: -18px;
+  left: 2px;
+  font-size: 0.95rem;
+  color: #f7c35f;
+  background: #43a047;
+  padding: 0 4px;
+}
+/* Animations */
+.agri-card, .agri-reply-card, .agri-add-plant-form {
+  animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1) both;
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: none; }
+}
+
+.teenanim {
+  animation: teenanim-bounce 1.2s cubic-bezier(.68,-0.55,.27,1.55) both;
+  color: #F7C35F;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+@keyframes teenanim-bounce {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  80% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+
