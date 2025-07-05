@@ -221,6 +221,28 @@ $profilePic = (empty($userInfo['profile_picture']) || $userInfo['profile_picture
             margin-bottom: 0.5rem;
             display: block;
         }
+        
+        .scrollable-progress {
+            max-height: 420px;
+            min-height: 420px;
+            overflow-y: auto;
+        }
+        /* Custom scrollbar for learning progress */
+        .scrollable-progress::-webkit-scrollbar {
+            width: 10px;
+        }
+        .scrollable-progress::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            border-radius: 8px;
+        }
+        .scrollable-progress::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 8px;
+        }
+        .scrollable-progress {
+            scrollbar-width: thin;
+            scrollbar-color: #43a047 #e8f5e9;
+        }
     </style>
 </head>
 <body>
@@ -286,7 +308,7 @@ $profilePic = (empty($userInfo['profile_picture']) || $userInfo['profile_picture
         <!-- Progress Section -->
         <div class="row">
             <div class="col-lg-8">
-                <div class="progress-card">
+                <div class="progress-card scrollable-progress">
                     <h4 class="mb-3">📚 Your Learning Progress</h4>
                     <?php 
                     $userProgress->data_seek(0);

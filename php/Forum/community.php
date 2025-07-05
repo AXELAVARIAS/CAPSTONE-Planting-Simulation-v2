@@ -9,12 +9,12 @@
   
   include "../connection.php"; 
 
-  $sql = "SELECT q.question_id, q.title, q.body, q.created_at, u.username, u.profile_picture, u.role,
+  $sql = "SELECT q.question_id, q.title, q.body, q.created_at, u.name, u.username, u.profile_picture, u.role,
           COUNT(r.reply_id) as reply_count
           FROM questions q
           JOIN users u ON q.user_id = u.user_id
           LEFT JOIN reply r ON q.question_id = r.question_id
-          GROUP BY q.question_id, q.title, q.body, q.created_at, u.username, u.profile_picture, u.role
+          GROUP BY q.question_id, q.title, q.body, q.created_at, u.name, u.username, u.profile_picture, u.role
           ORDER BY q.created_at DESC
           LIMIT 10";
   $result = $conn->query($sql);
@@ -338,7 +338,7 @@
                         </div>
                         <div class="discussion-content">
                           <div class="discussion-meta-top">
-                            <span class="discussion-username"><?= htmlspecialchars($row['username']) ?></span>
+                            <span class="discussion-username"><?= htmlspecialchars($row['name']) ?></span>
                             <span class="role-badge role-<?= $row['role'] ?>"><?= ucfirst($row['role']) ?></span>
                             <span class="discussion-meta-text">&bull; <?= date('M d, Y', strtotime($row['created_at'])) ?></span>
                           </div>
