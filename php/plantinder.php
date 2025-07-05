@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    // Prevent caching
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,9 +154,54 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     console.log(xhr.responseText);
+                    // Show success animation
+                    showPlantDiscoveryAnimation(plantName);
                 }
             };
             xhr.send(`plant_id=${encodeURIComponent(plantId)}&plant_name=${encodeURIComponent(plantName)}`);
+        }
+        
+        function showPlantDiscoveryAnimation(plantName) {
+            // Create discovery popup
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+                color: white;
+                padding: 2rem;
+                border-radius: 1rem;
+                text-align: center;
+                z-index: 1000;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                animation: popupIn 0.5s ease;
+            `;
+            popup.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🌱</div>
+                <h4>Plant Discovered!</h4>
+                <p>You found: <strong>${plantName}</strong></p>
+                <p style="font-size: 0.9rem; opacity: 0.9;">+10 points earned!</p>
+            `;
+            
+            document.body.appendChild(popup);
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes popupIn {
+                    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Remove popup after 3 seconds
+            setTimeout(() => {
+                popup.remove();
+                style.remove();
+            }, 3000);
         }
 
         fetchPlants();

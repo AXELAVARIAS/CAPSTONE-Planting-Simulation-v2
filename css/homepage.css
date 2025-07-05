@@ -351,18 +351,196 @@ h1{
   100% { opacity: 1; transform: none; }
 }
 
-.teenanim {
-  animation: teenanim-bounce 1.2s cubic-bezier(.68,-0.55,.27,1.55) both;
-  color: #F7C35F;
-  font-size: 1.18rem;
+
+ /* Hero Animation */
+ .hero-bg {
+  background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 80vh;
+}
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+}
+/* Slide-in effect for hero heading */
+.slide-in {
+  opacity: 0;
+  transform: translateY(-60px);
+  animation: slideInTop 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  font-size: 2.5rem;
+}
+@keyframes slideInTop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.typewriter {
+  display: inline-block;
+  border-right: 2px solid #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
+  font-size: 2.5rem;
+}
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #fff; }
+}
+.feature-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  min-width: 370px;
+  max-width: 500px;
+  font-size: 1.25rem;
+  padding: 2.5rem 2rem 2rem 2rem !important;
+}
+.feature-card h3 {
+  font-size: 2.2rem;
+  margin-bottom: 1.2rem;
+}
+.feature-card p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+.feature-card .btn {
+  font-size: 1.15rem;
+  padding: 0.75rem 2.5rem;
+}
+.carousel-img {
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+.counter {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #388e3c;
+}
+.faq-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 0;
+}
+.contact-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 16px rgba(76,175,80,0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.contact-fab:hover {
+  background: #388e3c;
+}
+@media (max-width: 768px) {
+  .carousel-img { max-height: 200px; }
+  .typewriter { font-size: 1.5rem; }
+}
+@media (max-width: 991.98px) {
+  .feature-card { min-width: 100%; max-width: 100%; }
+}
+.navbar-modern {
+  background: #fff !important;
+  box-shadow: 0 2px 12px rgba(60, 120, 60, 0.08);
+  border-bottom: 3px solid #4caf50;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  z-index: 1050;
+}
+.navbar-modern .teenanimlogo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #4caf50;
+  background: #fff;
+}
+.navbar-modern .navbar-nav .nav-link {
+  color: #388e3c !important;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin: 0 0.5rem;
+  position: relative;
+  transition: color 0.2s;
+}
+.navbar-modern .navbar-nav .nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #4caf50;
+  transition: width 0.3s;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+}
+.navbar-modern .navbar-nav .nav-link:hover,
+.navbar-modern .navbar-nav .nav-link.active {
+  color: #256029 !important;
+}
+.navbar-modern .navbar-nav .nav-link:hover::after,
+.navbar-modern .navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+.navbar-modern .btn-signin, .navbar-modern .btn-profile {
+  background: #4caf50;
+  color: #fff;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+}
+.navbar-modern .btn-signin:hover, .navbar-modern .btn-profile:hover {
+  background: #388e3c;
+  color: #fff;
+}
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px #4caf50;
+}
+#about-page h2 {
+  font-size: 2.8rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  margin-bottom: 2.2rem;
 }
-@keyframes teenanim-bounce {
-  0% { transform: scale(0.7); opacity: 0; }
-  60% { transform: scale(1.15); opacity: 1; }
-  80% { transform: scale(0.95); }
-  100% { transform: scale(1); }
+#aboutAccordion .accordion-button {
+  font-size: 1.5rem;
+  padding: 1.25rem 1.5rem;
 }
-
-
+#aboutAccordion .accordion-body {
+  font-size: 1.25rem;
+  padding: 1.5rem 2rem;
+}
+#aboutAccordion .accordion-item {
+  font-size: 1.15rem;
+}
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Optional: makes it circular */
+}

@@ -1,9 +1,6 @@
 <?php
    
     session_start();
-    header("Cache-Control: no-cache, no-store, must-revalidate");
-    header("Pragma: no-cache");
-    header("Expires: 0");
     if (!isset($_SESSION['user_id'])) {
         header("Location: login.php");
         exit();
@@ -111,7 +108,7 @@
 <?php include '../navbar.php'; ?>
 <div class="agri-sidebar">
     <img src="../../images/clearteenalogo.png" class="avatar" alt="User Avatar">
-    <div class="welcome teenanim">Hi, <?php echo htmlspecialchars($user['name']); ?>!</div>
+    <div class="welcome">Hi, <?php echo htmlspecialchars($user['name']); ?>!</div>
     <nav class="nav flex-column w-100 mt-2">
         <a class="nav-link<?php echo ($active_section == 'profile') ? ' active' : ''; ?>" href="?section=profile"><i class="bi bi-person-circle"></i> Profile</a>
         <a class="nav-link<?php echo ($active_section == 'settings') ? ' active' : ''; ?>" href="?section=settings"><i class="bi bi-gear"></i> Settings</a>

@@ -1,8 +1,5 @@
 <?php
 session_start();
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
 if (!isset($_SESSION['username']) || $_SESSION['role'] != 'admin') {
     header("Location: ../login.php");
     exit();
@@ -18,56 +15,70 @@ include('../connection.php');
     <title>Admin Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Irish+Grover&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/homepage.css">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background: #f4f6fa;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f8fcf7;
+            font-family: 'Poppins', Arial, sans-serif;
         }
         .admin-header {
             width: 100%;
-            background: #23272b;
-            color: #fff;
+            background: #fff;
+            color: #388e3c;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.75rem 2rem;
             font-size: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(60,120,60,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 3px solid #4caf50;
         }
         .admin-header .logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-family: 'Irish Grover', cursive;
+            font-size: 1.5rem;
+            color: #388e3c;
         }
         .admin-header .logo img {
             height: 36px;
             width: 36px;
             border-radius: 8px;
+            border: 2px solid #4caf50;
+            background: #fff;
         }
         .admin-header .logout-link {
             color: #fff;
-            text-decoration: none;
+            background: #4caf50;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
             font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 0.4rem;
-            transition: color 0.2s;
+            transition: background 0.2s, color 0.2s;
+            font-weight: 600;
+            border: none;
         }
         .admin-header .logout-link:hover {
-            color: #ffc107;
+            background: #388e3c;
+            color: #f7c35f;
         }
         .admin-nav {
-            background: #23272b;
+            background: #4caf50;
             display: flex;
             gap: 2rem;
             padding: 0.5rem 2rem 0.5rem 2rem;
-            border-bottom: 1px solid #343a40;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            border-bottom: 1px solid #388e3c;
+            box-shadow: 0 1px 4px rgba(60,120,60,0.03);
+            position: sticky;
+            top: 56px;
+            z-index: 99;
         }
         .admin-nav .nav-link {
             color: #fff;
@@ -79,21 +90,24 @@ include('../connection.php');
             align-items: center;
             gap: 0.5rem;
             transition: background 0.2s, color 0.2s;
+            font-size: 1.08rem;
         }
         .admin-nav .nav-link.active, .admin-nav .nav-link:hover {
-            background: #343a40;
-            color: #ffc107;
+            background: #f7c35f;
+            color: #388e3c;
         }
         .content {
             padding: 2.5rem 1vw 2rem 1vw;
             max-width: 98vw;
             margin: 0 auto;
+            margin-top: 1px;
         }
         .card {
             margin-bottom: 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(60,120,60,0.06);
+            border-radius: 18px;
             width: 100%;
+            background: #fff;
         }
         .content-section {
             display: none;
@@ -110,16 +124,49 @@ include('../connection.php');
             to { opacity: 1; transform: translateY(0); }
         }
         .table thead {
-            background: #23272b;
+            background: #4caf50;
             color: #fff;
         }
         .btn-dark, .btn-warning, .btn-danger {
             display: flex;
             align-items: center;
             gap: 0.4rem;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        .btn-dark {
+            background: #388e3c;
+            color: #f7c35f;
+            border: none;
+        }
+        .btn-dark:hover {
+            background: #256029;
+            color: #fff;
+        }
+        .btn-warning {
+            background: #f7c35f;
+            color: #388e3c;
+            border: none;
+        }
+        .btn-warning:hover {
+            background: #ffe082;
+            color: #256029;
+        }
+        .btn-danger {
+            background: #e53935;
+            color: #fff;
+            border: none;
+        }
+        .btn-danger:hover {
+            background: #b71c1c;
+            color: #fff;
+        }
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
         }
         .form-control {
             border-radius: 8px;
+            font-family: 'Poppins', Arial, sans-serif;
         }
         .section-title {
             display: flex;
@@ -128,6 +175,8 @@ include('../connection.php');
             font-weight: 600;
             font-size: 1.5rem;
             margin-bottom: 1.2rem;
+            color: #388e3c;
+            font-family: 'Irish Grover', cursive;
         }
         /* Responsive header for small screens */
         @media (max-width: 768px) {
@@ -170,6 +219,23 @@ include('../connection.php');
                 display: block;
                 margin: 0;
             }
+            .admin-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                display: none;
+                background: #4caf50;
+                position: sticky;
+                top: 48px;
+                z-index: 99;
+            }
+            .admin-nav.show {
+                display: flex;
+                margin-top: 0.5rem;
+            }
+            .content {
+                margin-top: 20px;
+            }
         }
         /* Responsive nav for small screens */
         @media (max-width: 768px) {
@@ -178,7 +244,7 @@ include('../connection.php');
                 gap: 0.5rem;
                 padding: 0.5rem 1rem;
                 display: none;
-                background: #23272b;
+                background: #4caf50;
                 position: relative;
                 margin-top: 0;
             }
@@ -198,7 +264,7 @@ include('../connection.php');
                 justify-content: flex-start;
                 font-size: 1rem;
                 padding: 0.75rem 1rem;
-                background: #23272b;
+                background: #4caf50;
                 color: #fff;
                 border-radius: 4px;
             }
@@ -209,7 +275,7 @@ include('../connection.php');
             }
             .admin-nav {
                 display: flex !important;
-                position: static;
+                position: sticky;
                 margin-top: 0;
             }
         }
@@ -261,6 +327,7 @@ include('../connection.php');
                         <th>Role</th>
                         <th>Date Created</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="userTable">
@@ -284,6 +351,14 @@ include('../connection.php');
                                 <option value='inactive'" . ($row['status'] == 'inactive' ? ' selected' : '') . ">Inactive</option>
                             </select>
                         </td>";
+                        echo "<td>";
+                        // Don't show delete button for the current admin user
+                        if ($row['user_id'] != $_SESSION['user_id']) {
+                            echo "<a href='deleteuser.php?id=" . $row['user_id'] . "' class='btn btn-sm btn-danger' onclick='return confirmDelete(\"" . htmlspecialchars($row['username']) . "\", " . $row['user_id'] . ")'><i class='bi bi-trash'></i>Delete</a>";
+                        } else {
+                            echo "<span class='text-muted'>Current User</span>";
+                        }
+                        echo "</td>";
                     }
                     ?>
                 </tbody>
@@ -324,7 +399,21 @@ include('../connection.php');
                         echo "<td>" . htmlspecialchars($row['type']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['content']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['image_path']) . "</td>";
+                        // Display image preview in admin table
+                        $image_path = $row['image_path'];
+                        if (filter_var($image_path, FILTER_VALIDATE_URL)) {
+                            // External URL
+                            echo "<td>
+                                    <img src='" . htmlspecialchars($image_path) . "' alt='Module Image' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;' onerror='this.style.display=\"none\"; this.nextElementSibling.style.display=\"block\";'>
+                                    <span style='display: none; font-size: 0.8em; color: #666;'>External URL</span>
+                                  </td>";
+                        } else {
+                            // Local file
+                            echo "<td>
+                                    <img src='../../" . htmlspecialchars($image_path) . "' alt='Module Image' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;' onerror='this.style.display=\"none\"; this.nextElementSibling.style.display=\"block\";'>
+                                    <span style='display: none; font-size: 0.8em; color: #666;'>Local File</span>
+                                  </td>";
+                        }
                         echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['updated_at']) . "</td>";
                         echo "<td>
@@ -606,8 +695,19 @@ include('../connection.php');
             element.classList.add('active');
         }
         window.onload = function() {
-            showSection('user-management');
-            setActiveNav(document.getElementById('nav-user'));
+            // Check if there's a hash in the URL to determine which section to show
+            var hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showSection(hash);
+                // Set the corresponding nav link as active
+                var navId = 'nav-' + hash.replace('-management', '');
+                if (document.getElementById(navId)) {
+                    setActiveNav(document.getElementById(navId));
+                }
+            } else {
+                showSection('user-management');
+                setActiveNav(document.getElementById('nav-user'));
+            }
         };
         function updateStatus1(select, suggestionId) {
             var newStatus = select.value;
@@ -628,6 +728,15 @@ include('../connection.php');
             })
             .catch(error => showToast('Error: ' + error, 'danger'));
         }
+        // Confirmation dialog for user deletion
+        function confirmDelete(username, userId) {
+            if (confirm('Are you sure you want to delete user "' + username + '"?\n\nThis action will permanently delete:\n• User account\n• All user questions and replies\n• All user favorites\n\nThis action cannot be undone.')) {
+                window.location.href = 'deleteuser.php?id=' + userId;
+                return true;
+            }
+            return false;
+        }
+        
         // Toast function
         function showToast(message, type) {
             var toastContainer = document.getElementById('toast-container');
@@ -655,6 +764,18 @@ include('../connection.php');
         document.getElementById('adminNavToggle').addEventListener('click', function() {
             var nav = document.getElementById('adminNav');
             nav.classList.toggle('show');
+        });
+        
+        // Handle hash changes (for browser back/forward buttons)
+        window.addEventListener('hashchange', function() {
+            var hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showSection(hash);
+                var navId = 'nav-' + hash.replace('-management', '');
+                if (document.getElementById(navId)) {
+                    setActiveNav(document.getElementById(navId));
+                }
+            }
         });
     </script>
 </body>

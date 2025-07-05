@@ -1,7 +1,10 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include 'connection.php';
+include 'gamification.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,7 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($result->num_rows === 0) {
                 $query = "INSERT INTO favorites (user_id, plant_id) VALUES ('$user_id', '$plant_id')";
                 if ($conn->query($query) === TRUE) {
-                    echo json_encode(['status' => 'success', 'message' => 'Plant added to favorites.']);
+                    // Award points for discovering a new plant
+                    $gamification = new GamificationSystem($conn, $user_id);
+                    $gamification->awardPoints(10, 'plant_discovery', 'Discovered: ' . $plant_name);
+                    $gamification->checkAchievements();
+                    
+                    echo json_encode(['status' => 'success', 'message' => 'Plant added to favorites. +10 points earned!']);
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'Failed to add plant to favorites.']);
                 }

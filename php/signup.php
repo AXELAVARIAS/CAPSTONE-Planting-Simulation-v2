@@ -18,8 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $conn->prepare("INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, 'user')");
-        $stmt->bind_param("sss", $fullname, $username, $hashed_password);
+        $default_profile_picture = 'clearteenalogo.png';
+        $stmt = $conn->prepare("INSERT INTO users (name, username, password, role, profile_picture) VALUES (?, ?, ?, 'user', ?)");
+        $stmt->bind_param("ssss", $fullname, $username, $hashed_password, $default_profile_picture);
 
         if ($stmt->execute()) {
             echo "Sign up successful!";

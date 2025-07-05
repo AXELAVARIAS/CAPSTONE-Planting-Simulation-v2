@@ -1,11 +1,24 @@
 <?php
   session_start();
-  header("Cache-Control: no-cache, no-store, must-revalidate");
-  header("Pragma: no-cache");
-  header("Expires: 0");
-  if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-      header("Location: php/login.php");
-      exit();
+  // Fetch real counts from the database
+  require_once 'php/connection.php';
+  $membersCount = 0;
+  $postsCount = 0;
+  $modulesCount = 0;
+  // Members: count active users
+  $result = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM users WHERE status = 'active'");
+  if ($row = mysqli_fetch_assoc($result)) {
+    $membersCount = (int)$row['cnt'];
+  }
+  // Posts: count questions
+  $result = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM questions");
+  if ($row = mysqli_fetch_assoc($result)) {
+    $postsCount = (int)$row['cnt'];
+  }
+  // Modules: count modules
+  $result = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM modules");
+  if ($row = mysqli_fetch_assoc($result)) {
+    $modulesCount = (int)$row['cnt'];
   }
 ?>
 <!DOCTYPE html>
@@ -18,177 +31,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/homepage.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-      /* Hero Animation */
-      .hero-bg {
-        background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
-        position: relative;
-        overflow: hidden;
-        min-height: 80vh;
-      }
-      .wave {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 120px;
-      }
-      .feature-card {
-        transition: transform 0.2s, box-shadow 0.2s;
-        cursor: pointer;
-        min-width: 370px;
-        max-width: 500px;
-        font-size: 1.25rem;
-        padding: 2.5rem 2rem 2rem 2rem !important;
-      }
-      .feature-card h3 {
-        font-size: 2.2rem;
-        margin-bottom: 1.2rem;
-      }
-      .feature-card p {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-      }
-      .feature-card .btn {
-        font-size: 1.15rem;
-        padding: 0.75rem 2.5rem;
-      }
-      .carousel-img {
-        max-height: 350px;
-        object-fit: cover;
-        border-radius: 1rem;
-      }
-      .counter {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #388e3c;
-      }
-      .faq-item {
-        border-bottom: 1px solid #e0e0e0;
-        padding: 1rem 0;
-      }
-      .contact-fab {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
-        background: #4caf50;
-        color: #fff;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        box-shadow: 0 4px 16px rgba(76,175,80,0.2);
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .contact-fab:hover {
-        background: #388e3c;
-      }
-      @media (max-width: 768px) {
-        .carousel-img { max-height: 200px; }
-      }
-      @media (max-width: 991.98px) {
-        .feature-card { min-width: 100%; max-width: 100%; }
-      }
-      .navbar-modern {
-        background: #fff !important;
-        box-shadow: 0 2px 12px rgba(60, 120, 60, 0.08);
-        border-bottom: 3px solid #4caf50;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        z-index: 1050;
-      }
-      .navbar-modern .teenanimlogo {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 12px;
-        border: 2px solid #4caf50;
-        background: #fff;
-      }
-      .navbar-modern .navbar-nav .nav-link {
-        color: #388e3c !important;
-        font-weight: 500;
-        font-size: 1.1rem;
-        margin: 0 0.5rem;
-        position: relative;
-        transition: color 0.2s;
-      }
-      .navbar-modern .navbar-nav .nav-link::after {
-        content: '';
-        display: block;
-        width: 0;
-        height: 2px;
-        background: #4caf50;
-        transition: width 0.3s;
-        position: absolute;
-        left: 0;
-        bottom: -4px;
-      }
-      .navbar-modern .navbar-nav .nav-link:hover,
-      .navbar-modern .navbar-nav .nav-link.active {
-        color: #256029 !important;
-      }
-      .navbar-modern .navbar-nav .nav-link:hover::after,
-      .navbar-modern .navbar-nav .nav-link.active::after {
-        width: 100%;
-      }
-      .navbar-modern .btn-signin, .navbar-modern .btn-profile {
-        background: #4caf50;
-        color: #fff;
-        border-radius: 50px;
-        padding: 0.5rem 1.5rem;
-        font-weight: 600;
-        border: none;
-        transition: background 0.2s, color 0.2s;
-        box-shadow: 0 2px 8px rgba(76,175,80,0.08);
-      }
-      .navbar-modern .btn-signin:hover, .navbar-modern .btn-profile:hover {
-        background: #388e3c;
-        color: #fff;
-      }
-      .navbar-toggler {
-        border: none;
-        outline: none;
-      }
-      .navbar-toggler:focus {
-        box-shadow: 0 0 0 2px #4caf50;
-      }
-      #about-page h2 {
-        font-size: 2.8rem;
-        font-weight: 700;
-        margin-bottom: 2.2rem;
-      }
-      #aboutAccordion .accordion-button {
-        font-size: 1.5rem;
-        padding: 1.25rem 1.5rem;
-      }
-      #aboutAccordion .accordion-body {
-        font-size: 1.25rem;
-        padding: 1.5rem 2rem;
-      }
-      #aboutAccordion .accordion-item {
-        font-size: 1.15rem;
-      }
-    </style>
+   
 </head>
 <body>
 <?php include 'php/navbar.php'; ?>
-    <section class="container-fluid hero-bg d-flex flex-column justify-content-start align-items-center position-relative" style="padding-top: 30px; min-height: 35vh;">
+    <section class="container-fluid hero-bg d-flex flex-column justify-content-start align-items-center position-relative" style="padding-top: 60px; min-height: 40vh;">
         <div class="text-center text-white d-flex flex-column justify-content-center align-items-center" style="z-index:2;">
-          <h1 class="mb-3" data-aos="fade-down">Welcome to Teen-Anim</h1>
+          <h1 class="slide-in mb-3">Welcome to Teen-Anim</h1>
           <p class="lead my-2 fs-3" data-aos="fade-up">Empowering the next generation of farmers</p>
           <p class="mb-4 fs-4" data-aos="fade-up" data-aos-delay="100">Join us in exploring the exciting world of agriculture. Learn, grow, and connect with fellow young farmers. Together, we can cultivate a sustainable future.</p>
           <?php if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true): ?>
               <a href="php/signup.php" class="btn btn-lg btn-warning px-5 py-2" data-aos="zoom-in" data-aos-delay="200">Get Started</a>
+          <?php else: ?>
+              <a href="php/dashboard.php" class="btn btn-lg btn-success px-5 py-2" data-aos="zoom-in" data-aos-delay="200">
+                <i class="bi bi-speedometer2"></i> Go to Dashboard
+              </a>
           <?php endif; ?>
         </div>
-        <svg class="wave" viewBox="0 0 1440 320"><path fill="#fff" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,117.3C384,117,480,171,576,197.3C672,224,768,224,864,197.3C960,171,1056,117,1152,128C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+        
     </section>
     <section class="container py-5">
       <div class="row g-4">
@@ -384,9 +244,9 @@
       }
       // Example values, replace with dynamic values if available
       document.addEventListener('DOMContentLoaded', function() {
-        animateCounter('membersCounter', 120, 1200);
-        animateCounter('postsCounter', 350, 1200);
-        animateCounter('modulesCounter', 6, 1200);
+        animateCounter('membersCounter', <?php echo $membersCount; ?>, 1200);
+        animateCounter('postsCounter', <?php echo $postsCount; ?>, 1200);
+        animateCounter('modulesCounter', <?php echo $modulesCount; ?>, 1200);
       });
 
       // Scroll to section

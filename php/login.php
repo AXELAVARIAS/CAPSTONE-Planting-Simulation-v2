@@ -1,5 +1,17 @@
 <?php
 session_start();
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    if ($_SESSION['role'] == 'admin') {
+        header("Location: Admin/adminpage.php");
+        exit();
+    } elseif ($_SESSION['role'] == 'agriculturist') {
+        header("Location: Admin/agriculturistpage.php");
+        exit();
+    } else {
+        header("Location: Admin/agriculturistpage.php");
+        exit();
+    }
+}
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -81,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         border: 1.5px solid #c8e6c9;
         backdrop-filter: blur(8px);
         padding: 2.5rem 2.5rem 2rem 2.5rem;
-        max-width: 400px;
+        max-width: 500px;
         width: 100%;
         position: relative;
         animation: fadeInUp 1s cubic-bezier(.23,1.01,.32,1) 0.1s both;
@@ -144,6 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         transition: background 0.2s, transform 0.2s;
         margin-top: 1rem;
       }
+      .login-btn:hover {
+        background: #388e3c;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(76,175,80,0.3);
+      }
       .login-btn:active {
         transform: scale(0.97);
       }
@@ -201,21 +219,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         letter-spacing: 1px;
         font-family: 'Segoe UI', Arial, sans-serif;
       }
+      .back-btn {
+        background: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+        margin-left: auto;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+      }
+      .back-btn:hover {
+        background: #388e3c;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(76,175,80,0.3);
+      }
+      .back-btn:active {
+        transform: scale(0.97);
+      }
     </style>
-    <script>
-    if (window.history && window.history.pushState) {
-        window.history.pushState('', null, './');
-        window.onpopstate = function() {
-            window.location.href = 'login.php';
-        };
-    }
-    </script>
 </head>
 <body>
     <header class="custom-header">
         <div class="header-content">
             <img src="../images/clearteenalogo.png" alt="TEEN-ANIM Logo" class="header-logo">
             <span class="header-title">TEEN-ANIM</span>
+            <a href="../index.php" class="back-btn">
+                <i class="bi bi-arrow-left me-1"></i>Go Back to Dashboard
+            </a>
         </div>
     </header>
     <div class="login-container">

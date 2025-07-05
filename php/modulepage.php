@@ -1,13 +1,15 @@
 <?php
-session_start();
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
     include 'connection.php';
+    session_start();
+    // Prevent caching
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit();
+    }
 
     $Type = isset($_POST['Type']) ? $conn->real_escape_string($_POST['Type']) : '';
     $Category = isset($_POST['Category']) ? $conn->real_escape_string($_POST['Category']) : '';
@@ -188,7 +190,15 @@ if (!isset($_SESSION['user_id'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="col-md-6 col-lg-4" data-aos="fade-up">';
                     echo '<div class="card module-card h-100">';
-                    echo '<img src="' . htmlspecialchars($row['image_path']) . '" class="module-card-img card-img-top" alt="' . htmlspecialchars($row['title']) . '">';
+                    // Handle image display for both local files and external URLs
+                    $image_path = $row['image_path'];
+                    if (filter_var($image_path, FILTER_VALIDATE_URL)) {
+                        // External URL - use directly
+                        echo '<img src="' . htmlspecialchars($image_path) . '" class="module-card-img card-img-top" alt="' . htmlspecialchars($row['title']) . '" onerror="this.src=\'../images/default-module.jpg\'; this.onerror=null;">';
+                    } else {
+                        // Local file - add proper path
+                        echo '<img src="' . htmlspecialchars($image_path) . '" class="module-card-img card-img-top" alt="' . htmlspecialchars($row['title']) . '" onerror="this.src=\'../images/default-module.jpg\'; this.onerror=null;">';
+                    }
                     echo '<div class="card-body d-flex flex-column">';
                     echo '<div class="mb-2">';
                     echo '<span class="badge badge-type">' . htmlspecialchars($row['type']) . '</span>';
@@ -196,7 +206,7 @@ if (!isset($_SESSION['user_id'])) {
                     echo '</div>';
                     echo '<h5 class="module-card-title">' . htmlspecialchars($row['title']) . '</h5>';
                     echo '<p class="module-card-desc flex-grow-1">' . htmlspecialchars($row['description']) . '</p>';
-                    echo '<a href="' . htmlspecialchars($row['content']) . '" class="btn view-btn mt-auto"><i class="bi bi-book me-1"></i>View Module</a>';
+                    echo '<a href="module_viewer.php?id=' . $row['module_id'] . '" class="btn view-btn mt-auto"><i class="bi bi-book me-1"></i>Start Learning</a>';
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
